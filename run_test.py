@@ -1,3 +1,3 @@
-from datasets import SanchuDataset
+from datasets import SangchuDataset
 
-SanchuDataset(".", download=True);
+SangchuDataset(".", download=True)

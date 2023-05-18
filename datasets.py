@@ -90,7 +90,7 @@ class SangchuDataset(Dataset):
 
     def _read_image(self, img: str):
         image = Image.open(self._image_path(img))
-        #image.verify()
+        # image.verify()
         image = letterbox_image(image, (self.img_size, self.img_size))
         return image
 

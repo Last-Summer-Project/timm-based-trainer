@@ -7,12 +7,13 @@ from typing import Any, Callable, Optional, Tuple
 from multiprocessing import cpu_count
 
 default_transformer = transforms.Compose(
-            [
-                transforms.Resize((500, 500)),
-                transforms.ToTensor(),
-                transforms.Normalize((0.48232,), (0.23051,)),
-            ]
-        )
+    [
+        transforms.Resize((500, 500)),
+        transforms.ToTensor(),
+        transforms.Normalize((0.48232,), (0.23051,)),
+    ]
+)
+
 
 class SangchuDataModule(L.LightningDataModule):
     def __init__(
@@ -23,7 +24,7 @@ class SangchuDataModule(L.LightningDataModule):
         transform: Optional[Callable] = default_transformer,
         target_transform: Optional[Callable] = None,
         shuffle: bool = Config.shuffle,
-        num_workers: int = Config.numWorkers
+        num_workers: int = Config.numWorkers,
     ):
         super().__init__()
         self.data_dir = data_dir
@@ -44,7 +45,7 @@ class SangchuDataModule(L.LightningDataModule):
             Config.dataName,
             img_size=self.img_size,
             transform=self.transform,
-            target_transform=self.target_transform
+            target_transform=self.target_transform,
         )
         self.data_val = SangchuDataset(
             self.data_dir,
@@ -52,11 +53,18 @@ class SangchuDataModule(L.LightningDataModule):
             img_size=self.img_size,
             img_type="val",
             transform=self.transform,
-            target_transform=self.target_transform
+            target_transform=self.target_transform,
         )
 
     def train_dataloader(self):
-        return DataLoader(self.data_train, batch_size=self.batch_size, shuffle=self.shuffle, num_workers=self.num_workers)
+        return DataLoader(
+            self.data_train,
+            batch_size=self.batch_size,
+            shuffle=self.shuffle,
+            num_workers=self.num_workers,
+        )
 
     def val_dataloader(self):
-        return DataLoader(self.data_val, batch_size=self.batch_size, num_workers=self.num_workers)
+        return DataLoader(
+            self.data_val, batch_size=self.batch_size, num_workers=self.num_workers
+        )
