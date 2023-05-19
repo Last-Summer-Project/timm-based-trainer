@@ -1,5 +1,6 @@
 from multiprocessing import cpu_count
 
+
 class Config:
     # ---- START OK TO EDIT ----
     dataName = None
@@ -19,14 +20,12 @@ class Config:
 
     # -- DATA --
     numClasses = 3
-    numWorkers = cpu_count() # 1
-    remapClass = {
-        0: 0,
-        9: 1,
-        10: 2
-    }
+    numWorkers = cpu_count()  # 1
+    remapClass = {0: 0, 9: 1, 10: 2}
 
     # -- OPTIONS --
+    optimizer = "adam"
+    learningRate = 1e-3
     transfer = True
     tuneFcOnly = True
     exportable = True
