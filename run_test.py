@@ -1,3 +1,5 @@
-from datasets import SangchuDataset
+import timm
+import pprint
 
-SangchuDataset(".", download=True)
+pp = pprint.PrettyPrinter(indent=4)
+pp.pprint(timm.list_models(pretrained=True))

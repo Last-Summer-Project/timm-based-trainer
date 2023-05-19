@@ -5,14 +5,14 @@ class Config:
     dataName = None
     downloadURL = None
 
-    resnetVersion = 50 # 18, 34, 50, 101, 152
+    modelName = "mobilenetv3_small_050.lamb_in1k"
     # ---- END OK TO EDIT ----
 
     batchSize = 512
     autoBatch = False
     batchMaxTries = 8
     epochs = 50
-    rootDir = f"/content/drive/MyDrive/last_summer/resnet{resnetVersion}/"
+    rootDir = f"/content/drive/MyDrive/last_summer/{modelName}/"
     dataDir = "../datasets"
     shuffle = True
     numClasses = 3

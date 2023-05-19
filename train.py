@@ -2,7 +2,7 @@ from lightning import Trainer
 from lightning.pytorch.tuner import Tuner
 from lightning.pytorch.callbacks import ModelCheckpoint
 from datamodule import SangchuDataModule
-from model import ResNetClassifierModel
+from model import TimmBasedClassifierModel
 from cfg import Config
 import torch
 
@@ -17,7 +17,7 @@ def main():
         torch.set_float32_matmul_precision("high")
 
     dm = SangchuDataModule()
-    model = ResNetClassifierModel(Config.numClasses, Config.resnetVersion)
+    model = TimmBasedClassifierModel(Config.numClasses, Config.modelName)
 
     checkpoint_last = ModelCheckpoint(filename="last", save_last=True)
     checkpoint_acc = ModelCheckpoint(
