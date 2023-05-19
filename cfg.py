@@ -8,6 +8,7 @@ class Config:
     modelName = "mobilenetv3_small_050.lamb_in1k"
     # ---- END OK TO EDIT ----
 
+    # -- SETUP --
     batchSize = 512
     autoBatch = False
     batchMaxTries = 8
@@ -15,6 +16,8 @@ class Config:
     rootDir = f"/content/drive/MyDrive/last_summer/{modelName}/"
     dataDir = "../datasets"
     shuffle = True
+
+    # -- DATA --
     numClasses = 3
     numWorkers = cpu_count() # 1
     remapClass = {
@@ -22,3 +25,9 @@ class Config:
         9: 1,
         10: 2
     }
+
+    # -- OPTIONS --
+    transfer = True
+    tuneFcOnly = True
+    exportable = True
+    scriptable = True

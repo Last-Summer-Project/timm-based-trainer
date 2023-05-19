@@ -3,15 +3,16 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import timm
-from torch.optim import SGD, Adam
+from torch.optim import SGD, Adam, AdamW, RAdam
 from torch.utils.data import DataLoader
 from torchmetrics import Accuracy
 from torchvision import transforms
 from torchvision.datasets import ImageFolder
+from cfg import Config
+
 
 class TimmBasedClassifierModel(L.LightningModule):
-
-    optimizers = {"adam": Adam, "sgd": SGD}
+    optimizers = {"adam": Adam, "sgd": SGD, "adamw": AdamW, "radam": RAdam}
 
     def __init__(
         self,
@@ -20,8 +21,10 @@ class TimmBasedClassifierModel(L.LightningModule):
         optimizer="adam",
         lr=1e-3,
         batch_size=16,
-        transfer=True,
-        tune_fc_only=True,
+        transfer=Config.transfer,
+        tune_fc_only=Config.tuneFcOnly,
+        exportable=Config.exportable,
+        scriptable=Config.scriptable,
     ):
         super().__init__()
 
@@ -39,7 +42,13 @@ class TimmBasedClassifierModel(L.LightningModule):
             task="binary" if num_classes == 1 else "multiclass", num_classes=num_classes
         )
 
-        self.model = timm.create_model(model_name, pretrained=transfer, num_classes=num_classes)
+        self.model = timm.create_model(
+            model_name,
+            pretrained=transfer,
+            num_classes=num_classes,
+            exportable=exportable,
+            scriptable=scriptable,
+        )
 
         if tune_fc_only:  # option to only tune the fully-connected layers
             for child in list(self.model.children())[:-1]:
