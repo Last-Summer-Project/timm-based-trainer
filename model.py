@@ -1,3 +1,4 @@
+from typing import Any
 import lightning as L
 import torch
 import torch.nn as nn
@@ -90,3 +91,9 @@ class TimmBasedClassifierModel(L.LightningModule):
         # perform logging
         self.log("val_loss", loss, on_epoch=True, prog_bar=False, logger=True)
         self.log("val_acc", acc, on_epoch=True, prog_bar=True, logger=True)
+
+    def predict_step(self, batch, batch_idx):
+        x, y = batch
+        preds = self(x)
+
+        return preds
