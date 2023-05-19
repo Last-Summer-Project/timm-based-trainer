@@ -8,7 +8,9 @@ class Config:
     resnetVersion = 50 # 18, 34, 50, 101, 152
     # ---- END OK TO EDIT ----
 
-    batchSize = 32
+    batchSize = 512
+    autoBatch = False
+    batchMaxTries = 8
     epochs = 50
     rootDir = f"/content/drive/MyDrive/last_summer/resnet{resnetVersion}/"
     dataDir = "../datasets"

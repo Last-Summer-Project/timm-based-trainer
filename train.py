@@ -40,8 +40,12 @@ def main():
     )
 
     # autobatch
-    tuner = Tuner(trainer)
-    tuner.scale_batch_size(model, datamodule=dm, mode="power")
+    try:
+        if Config.autoBatch:
+            tuner = Tuner(trainer)
+            tuner.scale_batch_size(model, datamodule=dm, mode="power", max_trials=Config.batchMaxTries)
+    except:
+        pass
 
     trainer.fit(model, datamodule=dm)
 
