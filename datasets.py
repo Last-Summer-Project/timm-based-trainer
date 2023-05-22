@@ -12,6 +12,15 @@ import numpy as np
 from torch.utils.data import Dataset
 from torchvision.datasets.utils import download_and_extract_archive
 from cfg import Config
+from torchvision import transforms
+
+default_transformer = transforms.Compose(
+    [
+        transforms.Resize((500, 500)),
+        transforms.ToTensor(),
+        transforms.Normalize((0.48232,), (0.23051,)),
+    ]
+)
 
 
 class SangchuDataset(Dataset):
@@ -108,6 +117,38 @@ class SangchuDataset(Dataset):
 
     def __len__(self) -> int:
         return len(self.data)
+
+
+class SimpleDataset:
+    def __init__(
+        self,
+        images: list[str] | str,
+        img_size: int = 500,
+        transform: Optional[Callable] = default_transformer,
+        target_transform: Optional[Callable] = None,
+    ) -> None:
+        if isinstance(images, str):
+            images = [images]
+        self.images = images
+        self.img_size = img_size
+        self.transform = transform
+        self.target_transform = target_transform
+
+    def _read_image(self, img: str):
+        image = Image.open(img)
+        image = letterbox_image(image, (self.img_size, self.img_size))
+        return image
+
+    def __getitem__(self, index: int) -> Any:
+        img = self.images[index]
+        img = self._read_image(img)
+        if self.transform is not None:
+            img = self.transform(img)
+
+        return img
+
+    def __len__(self) -> int:
+        return len(self.images)
 
 
 def letterbox_image(image: Image, size: Tuple[int, int]) -> Image:

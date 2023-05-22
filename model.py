@@ -17,15 +17,16 @@ class TimmBasedClassifierModel(L.LightningModule):
 
     def __init__(
         self,
-        num_classes,
-        model_name,
+        num_classes=Config.numClasses,
+        model_name=Config.modelName,
         optimizer=Config.optimizer,
         lr=Config.learningRate,
-        batch_size=16,
+        batch_size=Config.batchSize,
         transfer=Config.transfer,
         tune_fc_only=Config.tuneFcOnly,
         exportable=Config.exportable,
         scriptable=Config.scriptable,
+        save_hyperpram=Config.saveHyperParam,
     ):
         super().__init__()
 
@@ -55,6 +56,9 @@ class TimmBasedClassifierModel(L.LightningModule):
             for child in list(self.model.children())[:-1]:
                 for param in child.parameters():
                     param.requires_grad = False
+
+        if save_hyperpram:
+            self.save_hyperparameters()
 
     def forward(self, X):
         return self.model(X)
@@ -93,7 +97,8 @@ class TimmBasedClassifierModel(L.LightningModule):
         self.log("val_acc", acc, on_epoch=True, prog_bar=True, logger=True)
 
     def predict_step(self, batch, batch_idx):
-        x, y = batch
+        x = batch
         preds = self(x)
+        result = torch.argmax(preds, -1)
 
-        return preds
+        return result

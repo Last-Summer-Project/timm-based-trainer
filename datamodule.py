@@ -1,18 +1,9 @@
 import lightning as L
 from torch.utils.data import DataLoader
 from cfg import Config
-from datasets import SangchuDataset
-from torchvision import transforms
+from datasets import SangchuDataset, default_transformer
 from typing import Any, Callable, Optional, Tuple
 from multiprocessing import cpu_count
-
-default_transformer = transforms.Compose(
-    [
-        transforms.Resize((500, 500)),
-        transforms.ToTensor(),
-        transforms.Normalize((0.48232,), (0.23051,)),
-    ]
-)
 
 
 class SangchuDataModule(L.LightningDataModule):

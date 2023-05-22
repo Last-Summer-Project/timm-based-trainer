@@ -30,3 +30,4 @@ class Config:
     tuneFcOnly = True
     exportable = True
     scriptable = True
+    saveHyperParam = True
