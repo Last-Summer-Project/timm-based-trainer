@@ -32,7 +32,7 @@ def main():
         num_workers=min(len(ds), Config.numWorkers)
     )
 
-    model = TimmBasedClassifierModel().load_from_checkpoint(args.model, model_name=Config.modelName, num_classes=Config.numClasses)
+    model = TimmBasedClassifierModel().load_from_checkpoint(args.model)
     trainer = Trainer()
     pred = trainer.predict(model, dl)
     print("Result is : ", pred)
