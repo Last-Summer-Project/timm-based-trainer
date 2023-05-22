@@ -8,3 +8,5 @@ tqdm
 pillow
 opencv-python
 numpy
+matplotlib
+seaborn
