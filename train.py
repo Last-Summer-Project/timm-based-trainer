@@ -33,7 +33,15 @@ def main():
         save_top_k=1,
     )
 
-    early_stopping = EarlyStopping(monitor="val_acc", min_delta=0.00, patience=10, verbose=True, mode="max")
+    esp = 10
+    try:
+        esp = Config.earlyStoppingPatience
+    except:
+        esp = 10
+    finally:
+        if esp <= 0:
+            esp = Config.epochs
+    early_stopping = EarlyStopping(monitor="val_acc", min_delta=0.00, patience=esp, verbose=True, mode="max")
 
     trainer = Trainer(
         max_epochs=Config.epochs,
